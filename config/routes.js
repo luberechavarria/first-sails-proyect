@@ -28,9 +28,7 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
 
-  '/products': {
-    view: 'pages/products'
-  },
+  '/products': "ProductController.loadProducts",
   
  
   
