@@ -1,0 +1,15 @@
+
+<div class="container padding_continer">
+
+        <div class="card-columns">
+            <% comments.forEach(function(comment){ %>
+            <div class="card">
+                <img class="card-img-top" src="<%= product.image %>" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"> <%= comment.idProduct %> <%= product.title %> </h5>
+                    <p class="card-text"> <%= comment.comment %> </p>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
