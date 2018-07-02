@@ -1,15 +1,45 @@
-
 <div class="container padding_continer">
 
-        <div class="card-columns">
-            <% comments.forEach(function(comment){ %>
-            <div class="card">
-                <img class="card-img-top" src="<%= product.image %>" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title"> <%= comment.idProduct %> <%= product.title %> </h5>
-                    <p class="card-text"> <%= comment.comment %> </p>
+ <div class="card-columns">
+    <% var that = productInfo %>
+    <h2 class="card-title"> <%= that.title %></h2>
+    <h5 class="card-title"><%= that.description %></h5>
+    <div class="card">
+        <img class="card-img-top" src="<%= that.image %>" alt="Card image cap">
+    </div>
+</div>
+<h3 class="text-success">Comments</h3>
+<% comments.forEach(function(comment){ %>
+
+    <div class="container bootstrap snippet">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="blog-comment">        
+                   <ul class="comments">
+                        <li class="clearfix">
+                            <img src=<%= comment.imgUser%> class="avatar" alt="">
+                            <div class="post-comments">
+                                <p class="meta">Dec 18, 2014 <a href="#"><%= comment.name%></a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
+                                <p> <%= comment.comment%></p>
+                            </div>
+                        </li>
+                    
+                    </ul>
                 </div>
             </div>
-            <% }); %>
         </div>
     </div>
+<% }); %> 
+<hr>
+
+<div class="form-group">
+        <label for="comment">Leave your Comment here:</label>
+        <textarea class="form-control" rows="5" id="comment"></textarea>
+
+        <button type="button" class="btn btn-success">Success</button>
+
+
+        
+
+
+      </div>

@@ -7,85 +7,112 @@
 var products = [
     {
         title: " WiFi Block",
-        description: "A radio block very handy!",
-        image: "images/lapto.jpeg",
+        description: "1 A radio block very handy!",
+        image: "/images/lapto.jpeg",
         id: 1,
         name: "Mario Agudelo",
     },
 
     {
         title: " IMU Block",
-        description: "Measure acceleration!",
-        image: "images/lapto.jpeg",
+        description: " 2 Measure acceleration!",
+        image: "/images/lapto.jpeg",
         id: 4,
         name: "Juan Carlos",
     },
 
     {
         title: " WiFi Block",
-        description: "A radio block very handy!",
-        image: "images/lapto.jpeg",
+        description: "3 A radio block very handy!",
+        image: "/images/lapto.jpeg",
         id: 3,
         name: "Fernando Osorio",
     },
 
     {
         title: " IMU Block",
-        description: "Measure acceleration!",
+        description: "4 Measure acceleration!",
         image: "images/lapto.jpeg",
         id: 5,
         name: "Marcela Cuellar",
     },
     {
         title: " WiFi Block",
-        description: "A radio block very handy!",
-        image: "images/lapto.jpeg",
+        description: "5 A radio block very handy!",
+        image: "/images/lapto.jpeg",
         id: 4,
         name: "Rosbeert Henao",
     },
 
     {
         title: " IMU Block",
-        description: "Measure acceleration!",
-        image: "images/lapto.jpeg",
+        description: "6 Measure acceleration!",
+        image: "/images/lapto.jpeg",
         id: 6,
         name: "Luis Eduardo",
     }
 ];
+var usersComment = [
+    {
+        idProduct: 3,
+        name: "Mario Agudelo",
+        comment: "it is works in a perfect speed",
+        imgUser:"https://bootdey.com/img/Content/user_1.jpg"
+    },
+    {
+        idProduct: 4,
+        name: "Mario Agudelo",
+        comment: "the product is too expense for what it does",
+        imgUser:"https://bootdey.com/img/Content/user_1.jpg"
+    },
+    {
+        idProduct: 1,
+        name: "Mario Agudelo",
+        comment: "I am so happy with this pruduct",
+        imgUser:"https://bootdey.com/img/Content/user_1.jpg"
+    },
+    {
+        idProduct: 1,
+        name: "Sandra Bedolla",
+        comment: "it  works in a perfect speed",
+        imgUser:"https://bootdey.com/img/Content/user_2.jpg"
+    }, {
+        idProduct: 1,
+        name: "Rosbert Echavarria",
+        comment: "it is perfect",
+        imgUser:"https://bootdey.com/img/Content/user_3.jpg"
+    },
+];
 
 
-// function getProductById(id) {
-//     products.some
-//     products.forEach
-//     for(var i...)
+function getProductById(id) {
+    //  products.some
+    //  products.forEach
+    for (var i = 0; i < products.length; i++) {
+        if (products[i].id == id) {
+            return products[i];
+        }
+    }
+}
 
-//     return products[].id
-        
-// }
+function getCommentById(id) {
+    var array = [];
+    for (var i = 0; i < usersComment.length; i++) {
+        if (usersComment[i].idProduct == id) {
+            array.push(usersComment[i]);
+        }
+    }
+    return array
+}
+
+
 module.exports = {
     productComment: function (req, res) {
 
         var productInfo = getProductById(req.param("productId"));
-
-        var usersComment = [
-            {
-                idProduct: req.param('productId'),
-                name: "Mario Agudelo",
-                comment: "it is works in a perfect speed",
-            },
-            {
-                idProduct: req.param('productId'),
-                name: "Mario Agudelo",
-                comment: "the product is too expense for what it does",
-            },
-            {
-                idProduct: req.param('productId'),
-                name: "Mario Agudelo",
-                comment: "I am so happy with this pruduct",
-            },
-        ];
-
-        res.view('pages/ProductComments', { comments: usersComment, productInfo: productInfo });
+        var commentInfo = getCommentById(req.param("productId"));
+        
+        res.view('pages/ProductComments', { comments: commentInfo, productInfo: productInfo });
 
     },
 

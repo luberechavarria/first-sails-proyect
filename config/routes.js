@@ -30,7 +30,7 @@ module.exports.routes = {
 
   '/products': "ProductController.loadProducts",
 
-  '/products/:productId': "ProductController.productComment",
+  '/product/:productId': "ProductController.productComment",
   
  
   

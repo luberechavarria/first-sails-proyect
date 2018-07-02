@@ -5,7 +5,10 @@
     <div class="card-columns">
         <% products.forEach(function(product){ %>
         <div class="card">
-            <img class="card-img-top" src="<%= product.image %>" alt="Card image cap">
+            
+            <a href="/product/<%= product.id %>">
+                <img class="card-img-top " src="<%= product.image %>"  alt="Card image cap">
+            </a>
             <div class="card-body">
                 <h5 class="card-title"> <%= product.id %> <%= product.title %> </h5>
                 <p class="card-text"> <%= product.description %> </p>
