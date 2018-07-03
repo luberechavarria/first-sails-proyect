@@ -104,21 +104,44 @@ function getCommentById(id) {
     }
     return array
 }
+function AddUserComment(){
+    usersComment.push ({  
+        idProduct: 1,
+        name: "new User",
+        comment: res,
+        imgUser:"https://bootdey.com/img/Content/user_3.jpg"
+    });
+
+
+}
+
+ function renderProductComments(req, res) {
+    console.log("Product Id is: ", req.param("productId"));
+    
+    var productInfo = getProductById(req.param("productId"));
+    var commentInfo = getCommentById(req.param("productId"));
+   
+
+    res.view('pages/ProductComments', { comments: commentInfo, productInfo: productInfo });
+}
+
 
 
 module.exports = {
-    productComment: function (req, res) {
-
-        var productInfo = getProductById(req.param("productId"));
-        var commentInfo = getCommentById(req.param("productId"));
-        
-        res.view('pages/ProductComments', { comments: commentInfo, productInfo: productInfo });
-
-    },
+    productComment: renderProductComments,
 
     loadProducts: function (req, res) {
         res.view('pages/products', { products: products });
 
+    },
+
+    addUserComment: function(req, res){
+        console.log(req.param("comment"));
+
+        renderProductComments(req, res);
+        
+        
     }
+    
 };
 

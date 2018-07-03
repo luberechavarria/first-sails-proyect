@@ -31,6 +31,8 @@ module.exports.routes = {
   '/products': "ProductController.loadProducts",
 
   '/product/:productId': "ProductController.productComment",
+
+  'POST /product': "ProductController.addUserComment",
   
  
   

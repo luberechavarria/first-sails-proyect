@@ -1,13 +1,13 @@
 <div class="container padding_continer">
 
  <div class="card-columns">
-    <% var that = productInfo %>
-    <h2 class="card-title"> <%= that.title %></h2>
-    <h5 class="card-title"><%= that.description %></h5>
+    <h2 class="card-title"> <%= productInfo.title %></h2>
+    <h5 class="card-title"><%= productInfo.description %></h5>
     <div class="card">
-        <img class="card-img-top" src="<%= that.image %>" alt="Card image cap">
+        <img class="card-img-top" src="<%= productInfo.image %>" alt="Card image cap">
     </div>
 </div>
+
 <h3 class="text-success">Comments</h3>
 <% comments.forEach(function(comment){ %>
 
@@ -32,14 +32,14 @@
 <% }); %> 
 <hr>
 
-<div class="form-group">
+<div class="form-group ">
+    <form action="/product" method="post" >
         <label for="comment">Leave your Comment here:</label>
-        <textarea class="form-control" rows="5" id="comment"></textarea>
+        <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
+        <input type="hidden" name="productId" value="<%= productInfo.id %>">
 
-        <button type="button" class="btn btn-success">Success</button>
-
-
-        
-
-
-      </div>
+        <input class="btn btn-primary"   type="submit" value="Submit"> 
+    </form>
+</div>
+           
+ 
