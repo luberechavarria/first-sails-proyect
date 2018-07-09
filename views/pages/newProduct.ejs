@@ -1,0 +1,32 @@
+<div class="container padding_continer">
+    <% if(typeof success !== 'undefined') { %>
+    <div class="msg">
+        <% if (success == true){ %>
+            <p>Congratulations, product stored!!!</p>
+        <% } else { %>
+            <p><%= errorMsg %></p>
+        <% } %>
+    </div>
+    <% } %>
+    
+    <div class="form-group ">
+        <form action="/product/new" method="post">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="title">Title</label>
+                    <input name="title" type="text" placeholder="Enter a title">
+                </div>
+            </div>  
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="description">Enter product description:</label>
+                    <textarea class="form-control" rows="5" id="description" type="text" name="description"></textarea>
+                </div>
+            </div>  
+
+
+            <input class="btn btn-primary" type="submit" value="Save">
+        </form>
+    </div>
+</div>
