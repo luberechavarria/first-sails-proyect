@@ -33,10 +33,10 @@
 <hr>
 
 <div class="form-group ">
-    <form action="/product" method="post" >
+    <form action="/product/<%= productInfo.id %>" method="post" >
         <label for="comment">Leave your Comment here:</label>
         <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
-        <input type="hidden" name="productId" value="<%= productInfo.id %>">
+            <!-- <input type="hidden" name="parametro to use in controllers" value=what want to send -->
 
         <input class="btn btn-primary"   type="submit" value="Submit"> 
     </form>
