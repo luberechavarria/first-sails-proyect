@@ -1,10 +1,10 @@
 <div class="container padding_continer">
 
  <div class="card-columns">
-    <h2 class="card-title"> <%= productInfo.title %></h2>
-    <h5 class="card-title"><%= productInfo.description %></h5>
+    <h2 class="card-title"> <%= product.title %></h2>
+    <h5 class="card-title"><%= product.description %></h5>
     <div class="card">
-        <img class="card-img-top" src="<%= productInfo.image %>" alt="Card image cap">
+        <img class="card-img-top" src="<%= product.image %>" alt="Card image cap">
     </div>
 </div>
 
@@ -17,7 +17,7 @@
                 <div class="blog-comment">        
                    <ul class="comments">
                         <li class="clearfix">
-                            <img src=<%= comment.imgUser%> class="avatar" alt="">
+                            <img src=<%= "https://bootdey.com/img/Content/user_1.jpg"%> class="avatar" alt="">
                             <div class="post-comments">
                                 <p class="meta">Dec 18, 2014 <a href="#"><%= comment.name%></a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
                                 <p> <%= comment.comment%></p>
@@ -33,10 +33,10 @@
 <hr>
 
 <div class="form-group ">
-    <form action="/product/<%= productInfo.id %>" method="post" >
+    <form action="/product/<%= product.id %>" method="post" >
         <label for="comment">Leave your Comment here:</label>
         <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
-            <!-- <input type="hidden" name="parametro to use in controllers" value=what want to send -->
+            <input type="text" name="nombre" 
 
         <input class="btn btn-primary"   type="submit" value="Submit"> 
     </form>

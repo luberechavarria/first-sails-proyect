@@ -5,7 +5,7 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
- // collection / table
+// collection / table
 // var products = [
 //     {
 //         title: " WiFi Block",
@@ -55,42 +55,42 @@
 //     }
 // ];
 
-var usersComment = [
-    {
-        idProduct: 3,
-        name: "Mario Agudelo",
-        comment: "it is working in a perfect speed",
-        imgUser:"https://bootdey.com/img/Content/user_1.jpg"
-    },
-    {
-        idProduct: 4,
-        name: "Mario Agudelo",
-        comment: "the product is too expense for what it does",
-        imgUser:"https://bootdey.com/img/Content/user_1.jpg"
-    },
-    {
-        idProduct: 1,
-        name: "Mario Agudelo",
-        comment: "I am so happy with this pruduct",
-        imgUser:"https://bootdey.com/img/Content/user_1.jpg"
-    },
-    {
-        idProduct: 1,
-        name: "Sandra Bedolla",
-        comment: "it  works in a perfect speed",
-        imgUser:"https://bootdey.com/img/Content/user_2.jpg"
-    }, {
-        idProduct: 1,
-        name: "Rosbert Echavarria",
-        comment: "it is perfect",
-        imgUser:"https://bootdey.com/img/Content/user_3.jpg"
-    },
-];
+// var usersComment = [
+//     {
+//         idProduct: 3,
+//         name: "Mario Agudelo",
+//         comment: "it is working in a perfect speed",
+//         imgUser: "https://bootdey.com/img/Content/user_1.jpg"
+//     },
+//     {
+//         idProduct: 4,
+//         name: "Mario Agudelo",
+//         comment: "the product is too expense for what it does",
+//         imgUser: "https://bootdey.com/img/Content/user_1.jpg"
+//     },
+//     {
+//         idProduct: 1,
+//         name: "Mario Agudelo",
+//         comment: "I am so happy with this pruduct",
+//         imgUser: "https://bootdey.com/img/Content/user_1.jpg"
+//     },
+//     {
+//         idProduct: 1,
+//         name: "Sandra Bedolla",
+//         comment: "it  works in a perfect speed",
+//         imgUser: "https://bootdey.com/img/Content/user_2.jpg"
+//     }, {
+//         idProduct: 1,
+//         name: "Rosbert Echavarria",
+//         comment: "it is perfect",
+//         imgUser: "https://bootdey.com/img/Content/user_3.jpg"
+//     },
+// ];
 
 
 function getProductById(id) {
-    Product.findOne({id: id}).exec(function(error, result){
-        if(error){
+    Product.findOne({ id: id }).exec(function (error, result) {
+        if (error) {
             console.log("Error finding products");
             return {};
         }
@@ -108,23 +108,23 @@ function getCommentById(id) {
     }
     return array
 }
-function AddUserComment(comment, idProductComment){
-    usersComment.push ({  
+function AddUserComment(comment, idProductComment) {
+    usersComment.push({
         idProduct: idProductComment,
         name: "Nuevo user",
         comment: comment,
-        imgUser:"https://pbs.twimg.com/media/Dd-Qnp2V4AAcaah.jpg"
+        imgUser: "https://pbs.twimg.com/media/Dd-Qnp2V4AAcaah.jpg"
     });
 
 
 }
 
- function renderProductComments(req, res) {
+function renderProductComments(req, res) {
     console.log("Product Id is: ", req.param("productId"));
-    
+
     var productInfo = getProductById(req.param("productId"));
     var commentInfo = getCommentById(req.param("productId"));
-   
+
 
     res.view('pages/ProductComments', { comments: commentInfo, productInfo: productInfo });
 }
@@ -132,11 +132,11 @@ function AddUserComment(comment, idProductComment){
 
 
 module.exports = {
-    productComment: renderProductComments,
+    showProductComment: renderProductComments,
 
     loadProducts: function (req, res) {
-        Product.find().exec(function(err, products){
-            if(err){
+        Product.find().exec(function (err, products) {
+            if (err) {
                 console.log("Couldn't find products: ", err);
                 return;
             }
@@ -145,28 +145,66 @@ module.exports = {
         });
     },
 
-    addUserComment: function(req, res){
+    addUserComment: function (req, res) {
         console.log(req.param("comment"));
         AddUserComment(req.param("comment"), req.param("productId"));
         renderProductComments(req, res);
     },
 
-    showNewProduct: function(req, res){
+    showNewProduct: function (req, res) {
         res.view('pages/newProduct');
     },
 
-    addNewProduct: function(req, res){
+    addNewProduct: function (req, res) {
         Product.create({
             title: req.param('title'),
             description: req.param('description')
         }).exec(function (err, result) {
-            if(err){
+            if (err) {
                 console.log("Error saving product");
-                return res.view('pages/newProduct', {sucess: false, errorMsg: 'Error saving product'});
+                return res.view('pages/newProduct', { sucess: false, errorMsg: 'Error saving product' });
             }
 
-            res.view('pages/newProduct', {success: true});
+            res.view('pages/newProduct', { success: true });
         });
-    }
+    },
+
+    addNewComment: function (req, res) {
+        Comments.create({
+            idProduct: req.param("productId"),
+            name: req.param('nombre'),
+            comment: req.param("comment"),
+            imgUser: req.param(''),
+        }).exec(function (err, result) {
+            if (err) {
+                return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error saving comment' });
+
+            }
+            res.view('pages/ProductComments', { success: true });
+        });
+
+    },
+
+    showProductComment: function (req, res) {
+        Comments.find().exec(function (err, comment) {
+            if (err) {
+                console.log("Couldn't find products: ", err);
+                return;
+            }
+            
+            Product.find().exec(function (err, products) {
+                if (err) {
+                    console.log("Couldn't find products: ", err);
+                    return;
+                }
+    
+                res.view('pages/ProductComments', { product: products, comments:comment});
+            });
+        });
+
+      
+    },
+
+    
 };
 

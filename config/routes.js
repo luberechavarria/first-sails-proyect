@@ -30,7 +30,7 @@ module.exports.routes = {
 
   '/products': "ProductController.loadProducts",
 
-  '/product/:productId': "ProductController.productComment",
+  '/product/:productId': "ProductController.showProductComment",
 
   'POST /product/:productId': "ProductController.addUserComment",
 
