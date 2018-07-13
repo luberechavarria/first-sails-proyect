@@ -12,7 +12,8 @@ module.exports = {
 
         image: {
             type: 'string',
-            defaultsTo: "images/lapto.jpeg"
+            defaultsTo: "/images/lapto.jpeg"
         }
+       
     },
 };

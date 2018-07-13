@@ -53,86 +53,33 @@
 //         id: 6,
 //         name: "Luis Eduardo",
 //     }
-// ];
+// ]
+function getProductsAndComments(cb) {
 
-// var usersComment = [
-//     {
-//         idProduct: 3,
-//         name: "Mario Agudelo",
-//         comment: "it is working in a perfect speed",
-//         imgUser: "https://bootdey.com/img/Content/user_1.jpg"
-//     },
-//     {
-//         idProduct: 4,
-//         name: "Mario Agudelo",
-//         comment: "the product is too expense for what it does",
-//         imgUser: "https://bootdey.com/img/Content/user_1.jpg"
-//     },
-//     {
-//         idProduct: 1,
-//         name: "Mario Agudelo",
-//         comment: "I am so happy with this pruduct",
-//         imgUser: "https://bootdey.com/img/Content/user_1.jpg"
-//     },
-//     {
-//         idProduct: 1,
-//         name: "Sandra Bedolla",
-//         comment: "it  works in a perfect speed",
-//         imgUser: "https://bootdey.com/img/Content/user_2.jpg"
-//     }, {
-//         idProduct: 1,
-//         name: "Rosbert Echavarria",
-//         comment: "it is perfect",
-//         imgUser: "https://bootdey.com/img/Content/user_3.jpg"
-//     },
-// ];
-
-
-function getProductById(id) {
-    Product.findOne({ id: id }).exec(function (error, result) {
-        if (error) {
-            console.log("Error finding products");
-            return {};
+    Comments.find().exec(function (err, comments) {
+        if (err) {
+            console.log("Couldn't find products: ", err);
+            cb(err);
+            return;
         }
 
-        return result;
+        Product.find().exec(function (err, products) {
+           
+            if (err) {
+                console.log("Couldn't find products: ", err);
+                cb(err);
+                return;
+            }
+
+            if (typeof cb === 'function') {
+                cb(false, comments, products)
+            }
+        });
     });
 }
-
-function getCommentById(id) {
-    var array = [];
-    for (var i = 0; i < usersComment.length; i++) {
-        if (usersComment[i].idProduct == id) {
-            array.push(usersComment[i]);
-        }
-    }
-    return array
-}
-function AddUserComment(comment, idProductComment) {
-    usersComment.push({
-        idProduct: idProductComment,
-        name: "Nuevo user",
-        comment: comment,
-        imgUser: "https://pbs.twimg.com/media/Dd-Qnp2V4AAcaah.jpg"
-    });
-
-
-}
-
-function renderProductComments(req, res) {
-    console.log("Product Id is: ", req.param("productId"));
-
-    var productInfo = getProductById(req.param("productId"));
-    var commentInfo = getCommentById(req.param("productId"));
-
-
-    res.view('pages/ProductComments', { comments: commentInfo, productInfo: productInfo });
-}
-
-
 
 module.exports = {
-    showProductComment: renderProductComments,
+
 
     loadProducts: function (req, res) {
         Product.find().exec(function (err, products) {
@@ -143,12 +90,6 @@ module.exports = {
 
             res.view('pages/products', { products: products });
         });
-    },
-
-    addUserComment: function (req, res) {
-        console.log(req.param("comment"));
-        AddUserComment(req.param("comment"), req.param("productId"));
-        renderProductComments(req, res);
     },
 
     showNewProduct: function (req, res) {
@@ -186,25 +127,58 @@ module.exports = {
     },
 
     showProductComment: function (req, res) {
-        Comments.find().exec(function (err, comment) {
+
+
+        getProductsAndComments(function (err, comments, products) {
             if (err) {
-                console.log("Couldn't find products: ", err);
+                console.log("There was an error!")
                 return;
             }
-            
-            Product.find().exec(function (err, products) {
-                if (err) {
-                    console.log("Couldn't find products: ", err);
-                    return;
-                }
-    
-                res.view('pages/ProductComments', { product: products, comments:comment});
-            });
-        });
 
-      
+            //products.some(function(item){
+            //         if (item.id == itemSelected) {
+            //             myItem = item;
+            //             return true;
+            //         }
+            //      });
+
+            var itemSelected = req.param('productId');
+
+            var myItem = 0;
+            for (var product of products) {
+                if (product.id == itemSelected) {
+                    myItem = product;
+                    break;
+                }
+            }
+
+            var productComments = [];
+            for (var comment of comments) {
+                if (comment.idProduct == myItem.id) {
+                    productComments.push(comment);
+                }
+            }
+
+            if (productComments.length == 0) {
+                productComments.push({
+                    idProduct: 0,
+                    name: "",
+                    comment: "NOT COMMENTS TO THIS ITEM",
+                    imgUser: ""
+                });
+            };
+            console.log(myItem.image, "lubeer");
+            res.view('pages/ProductComments', { product: myItem, comments: productComments });
+        });
+       
+
     },
 
-    
+    showProductsToDelete: function (req, res) {
+
+        res.view('pages/deleteProducts', {});
+    }
+
+
 };
 

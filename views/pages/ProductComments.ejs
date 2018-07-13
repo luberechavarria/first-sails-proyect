@@ -1,45 +1,59 @@
+
+
 <div class="container padding_continer">
 
- <div class="card-columns">
-    <h2 class="card-title"> <%= product.title %></h2>
-    <h5 class="card-title"><%= product.description %></h5>
-    <div class="card">
-        <img class="card-img-top" src="<%= product.image %>" alt="Card image cap">
+    <div class="card-columns">
+            
+            <div class="card">
+                
+                <a href="/product/<%= product.id %>">
+                    <img class="card-img-top " src="<%= product.image %>"  alt="Card image cap">
+                </a>
+            <div class="card-body">
+                    <h5 class="card-title"> <%= product.title %>  <%= product.id %></h5>
+                    <p class="card-text"> <%= product.description %> </p>
+            </div>
+        </div>
+            
+            
     </div>
-</div>
+    
 
-<h3 class="text-success">Comments</h3>
-<% comments.forEach(function(comment){ %>
 
-    <div class="container bootstrap snippet">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="blog-comment">        
-                   <ul class="comments">
-                        <li class="clearfix">
-                            <img src=<%= "https://bootdey.com/img/Content/user_1.jpg"%> class="avatar" alt="">
-                            <div class="post-comments">
-                                <p class="meta">Dec 18, 2014 <a href="#"><%= comment.name%></a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
-                                <p> <%= comment.comment%></p>
-                            </div>
-                        </li>
-                    
-                    </ul>
+    <h3 class="text-success">Comments</h3>
+    
+    <% comments.forEach(function(comment){ %>
+        <div class="container bootstrap snippet">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="blog-comment">        
+                    <ul class="comments">
+                            <li class="clearfix">
+                                <img src=<%= "https://bootdey.com/img/Content/user_1.jpg"%> class="avatar" alt="">
+                                <div class="post-comments">
+                                    <p class="meta">Dec 18, 2014 <a href="#"><%= comment.name%></a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
+                                    <p> <%= comment.comment%></p>
+                                </div>
+                            </li>
+                        
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+    <% }); %> 
+    <hr>
+
+    <div class="form-group ">
+        <form action="/product/<%= product.id %>" method="post" >
+            <label for="comment">Leave your Comment here:</label>
+            <input   type="text" name="nombre"> 
+            <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
+                
+            
+            <input class="btn btn-primary"   type="submit" value="Submit"> 
+        </form>
     </div>
-<% }); %> 
-<hr>
-
-<div class="form-group ">
-    <form action="/product/<%= product.id %>" method="post" >
-        <label for="comment">Leave your Comment here:</label>
-        <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
-            <input type="text" name="nombre" 
-
-        <input class="btn btn-primary"   type="submit" value="Submit"> 
-    </form>
 </div>
-           
- 
+            
+    

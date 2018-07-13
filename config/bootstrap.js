@@ -10,6 +10,49 @@
  */
 
 module.exports.bootstrap = async function(done) {
+  var usersComments = [
+    {
+        idProduct: 3,
+        name: "Mario Agudelo",
+        comment: "it is working in a perfect speed",
+        imgUser: "https://bootdey.com/img/Content/user_1.jpg"
+    },
+    {
+        idProduct: 4,
+        name: "Mario Agudelo",
+        comment: "the product is too expense for what it does",
+        imgUser: "https://bootdey.com/img/Content/user_1.jpg"
+    },
+    {
+        idProduct: 1,
+        name: "Mario Agudelo",
+        comment: "I am so happy with this pruduct",
+        imgUser: "https://bootdey.com/img/Content/user_1.jpg"
+    },
+    {
+        idProduct: 1,
+        name: "Sandra Bedolla",
+        comment: "it  works in a perfect speed",
+        imgUser: "https://bootdey.com/img/Content/user_2.jpg"
+    }, {
+        idProduct: 1,
+        name: "Rosbert Echavarria",
+        comment: "it is perfect",
+        imgUser: "https://bootdey.com/img/Content/user_3.jpg"
+    },
+    
+  ];
+
+  Comments.find(function(err, comments){
+    if(err) return console.error("There was an error initialising");
+    if(!comments.length){
+      usersComments.forEach(function(comment){
+        Comments.create(comment, function(err){
+          if(err) console.error("Error adding comment: ", err);
+        });
+      });
+    }
+  });
 
   // By convention, this is a good place to set up fake data during development.
   //

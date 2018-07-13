@@ -37,7 +37,8 @@ module.exports.routes = {
   '/product/new': "ProductController.showNewProduct",
 
   'POST /product/new': "ProductController.addNewProduct",
-  
+
+  '/product/delete': "ProductController.showProductsToDelete",
  
   
   /***************************************************************************

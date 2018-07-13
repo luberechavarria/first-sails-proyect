@@ -18,7 +18,7 @@ module.export= {
 
         imgUser:{
             type:"strindg",
-
+            defaultsTo: "https://bootdey.com/img/Content/user_1.jpg"
         }
 
     }
