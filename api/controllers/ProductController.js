@@ -64,7 +64,7 @@ function getProductsAndComments(cb) {
         }
 
         Product.find().exec(function (err, products) {
-           
+
             if (err) {
                 console.log("Couldn't find products: ", err);
                 cb(err);
@@ -110,28 +110,51 @@ module.exports = {
         });
     },
 
-    addNewComment: function (req, res) {
+    addUserComment: function (req, res) {
         Comments.create({
             idProduct: req.param("productId"),
-            name: req.param('nombre'),
+            name: req.param("nombre"),
             comment: req.param("comment"),
-            imgUser: req.param(''),
+            
         }).exec(function (err, result) {
+            var errorOccurred = false;
+            var errorMsg = "";
             if (err) {
-                return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error saving comment' });
-
+                errorOccurred = true;
+                errorMsg = "Error saving your comment";
+                // return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error saving comment' });
             }
-            res.view('pages/ProductComments', { success: true });
-        });
 
+            var idproduct = req.param("productId")
+            Product.find({ id: idproduct }).exec(function (err, product) {
+                if (err) {
+                    return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error finding product to add comment' });
+                };
+
+                Comments.find({ idProduct: idproduct }).exec(function (err, comments) {
+                    if (err) {
+                        return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error finding comments to this product' });
+                    };
+
+                    res.view('pages/ProductComments', { product: product, comments: comments});
+
+                });
+
+            });
+
+        });
     },
+           
+        
+
+    
 
     showProductComment: function (req, res) {
 
 
         getProductsAndComments(function (err, comments, products) {
             if (err) {
-                console.log("There was an error!")
+                console.log("There was an error!", err)
                 return;
             }
 
@@ -170,15 +193,80 @@ module.exports = {
             console.log(myItem.image, "lubeer");
             res.view('pages/ProductComments', { product: myItem, comments: productComments });
         });
-       
+
 
     },
 
     showProductsToDelete: function (req, res) {
+        getProductsAndComments(function (err, comments, products) {
+            if (err) {
+                console.log("There was an error!", err)
+                return;
+            }
 
-        res.view('pages/deleteProducts', {});
+            for (var product of products) {
+                var counter = 0;
+                for (var comment of comments) {
+                    if (product.id === comment.idProduct) counter++;
+                }
+
+                product.numberOfComments = counter;
+            }
+
+
+            res.view('pages/deleteProducts', { product: products });
+
+        });
+    },
+
+    deleteProduct: function (req, res) {
+        var IdProduct = req.param("IdProduct");
+
+        console.log("this is a test", IdProduct);
+
+        Product.destroy({ id: IdProduct }).exec(function (err) {
+            if (err) {
+                console.log("somthig wrong deleting product", err)
+
+            }
+            res.ok();
+
+            console.log("product was deleted,well done luber")
+        });
+
+
+
+
+
+
+        // res.ok();
+        // Product.find().exec(function (err, products) {
+
+        //     if (err) {
+        //         console.log("Couldn't find products: ", err);
+        //         cb(err);
+        //         return;
+        //     }
+
+        //     res.view('pages/deleteProducts', { product: products });
+        // });
+    },
+
+
+    deleteProductComments: function (req, res) {
+
+        var x = req.param("productId");
+        var productId = Number(x);
+
+        Comments.find({ idProduct: productId }).exec(function (err, comments) {
+            if (err) {
+                console.log("could not find comments", err)
+            }
+
+            res.view('pages/deleteComments', { comments: comments });
+
+        });
     }
-
 
 };
 

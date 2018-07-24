@@ -6,7 +6,7 @@
             
             <div class="card">
                 
-                <a href="/product/<%= product.id %>">
+                <a href="/product<%= product.id %>">
                     <img class="card-img-top " src="<%= product.image %>"  alt="Card image cap">
                 </a>
             <div class="card-body">
@@ -45,9 +45,10 @@
     <hr>
 
     <div class="form-group ">
-        <form action="/product/<%= product.id %>" method="post" >
-            <label for="comment">Leave your Comment here:</label>
-            <input   type="text" name="nombre"> 
+        <form action="/product/<%= product.id%>/comments" method="post" >
+            <label for="comment">Leave your Comment here</label>
+            <input   class= "hide" type="number" value="<%= product.id %>" name="productId"> 
+            <p> your Name <input   type="text" name="nombre"> </p>
             <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
                 
             

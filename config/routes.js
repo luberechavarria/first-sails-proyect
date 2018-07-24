@@ -30,16 +30,19 @@ module.exports.routes = {
 
   '/products': "ProductController.loadProducts",
 
-  '/product/:productId': "ProductController.showProductComment",
+  '/product/:productId/comments': "ProductController.showProductComment",
 
-  'POST /product/:productId': "ProductController.addUserComment",
+  'POST /product/:productId/comments': "ProductController.addUserComment",
 
   '/product/new': "ProductController.showNewProduct",
 
   'POST /product/new': "ProductController.addNewProduct",
 
   '/product/delete': "ProductController.showProductsToDelete",
- 
+   
+  'POST /product/delete/:IdProduct': "ProductController.deleteProduct",
+
+  '/product/:productId/comments/delete': "ProductController.deleteProductComments",
   
   /***************************************************************************
   *                                                                          *
