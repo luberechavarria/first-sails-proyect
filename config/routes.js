@@ -42,8 +42,12 @@ module.exports.routes = {
    
   'POST /product/delete/:IdProduct': "ProductController.deleteProduct",
 
-  '/product/:productId/comments/delete': "ProductController.deleteProductComments",
-  
+  '/product/:productId/comments/delete': "ProductController.ShowDeleteProductComments",
+
+  'POST /product/comment/:IdComment/delete': "ProductController.deleteComment",
+
+  'POST /product/:IdComment/comments/edit/:newComment': "ProductController.EditComment",
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

@@ -47,7 +47,10 @@
     <div class="form-group ">
         <form action="/product/<%= product.id%>/comments" method="post" >
             <label for="comment">Leave your Comment here</label>
-            <input   class= "hide" type="number" value="<%= product.id %>" name="productId"> 
+            <% if(errMsg != false ) {%>
+                <p style="color: red;"><%= errMsg %></p>
+            <%}%>
+            <input   class= "hide" type= "number" value="<%= product.id %>" name="productId"> 
             <p> your Name <input   type="text" name="nombre"> </p>
             <textarea class="form-control" rows="5" id="comment" type="text" name="comment" ></textarea>
                 

@@ -15,7 +15,7 @@
                      <th>comments</th>
                      <!-- <th>IdComents</th>
                      <th>Contact</th> -->
-                      <th>Edit</th>
+                      
                       
                        <th>Delete</th>
                    </thead>
@@ -28,13 +28,7 @@
           <td> <%= product.title %> </td>
           <td> <a href = "/product/<%= product.id %>/comments/delete" > <%= product.numberOfComments %> </a></td>
       
-          <td>
-            <p data-placement="top" data-toggle="tooltip" title="Edit">
-              <button  class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >  
-                <span class="glyphicon glyphicon-pencil"></span>
-              </button>
-            </p>
-          </td>
+          
 
 
 
@@ -47,15 +41,7 @@
 </table>
 
 <div class="clearfix"></div>
-<ul class="pagination pull-right">
-  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-  <li class="active"><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-</ul>
+
                 
             </div>
             

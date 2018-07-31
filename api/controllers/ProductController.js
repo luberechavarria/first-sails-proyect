@@ -15,45 +15,6 @@
 //         name: "Mario Agudelo",
 //     },
 
-//     {
-//         title: " IMU Block",
-//         description: " 2 Measure acceleration!",
-//         image: "/images/lapto.jpeg",
-//         id: 4,
-//         name: "Juan Carlos",
-//     },
-
-//     {
-//         title: " WiFi Block",
-//         description: "3 A radio block very handy!",
-//         image: "/images/lapto.jpeg",
-//         id: 3,
-//         name: "Fernando Osorio",
-//     },
-
-//     {
-//         title: " IMU Block",
-//         description: "4 Measure acceleration!",
-//         image: "images/lapto.jpeg",
-//         id: 5,
-//         name: "Marcela Cuellar",
-//     },
-//     {
-//         title: " WiFi Block",
-//         description: "5 A radio block very handy!",
-//         image: "/images/lapto.jpeg",
-//         id: 4,
-//         name: "Rosbeert Henao",
-//     },
-
-//     {
-//         title: " IMU Block",
-//         description: "6 Measure acceleration!",
-//         image: "/images/lapto.jpeg",
-//         id: 6,
-//         name: "Luis Eduardo",
-//     }
-// ]
 function getProductsAndComments(cb) {
 
     Comments.find().exec(function (err, comments) {
@@ -73,9 +34,11 @@ function getProductsAndComments(cb) {
 
             if (typeof cb === 'function') {
                 cb(false, comments, products)
+
             }
         });
     });
+
 }
 
 module.exports = {
@@ -88,7 +51,10 @@ module.exports = {
                 return;
             }
 
+
+
             res.view('pages/products', { products: products });
+
         });
     },
 
@@ -111,11 +77,12 @@ module.exports = {
     },
 
     addUserComment: function (req, res) {
+
         Comments.create({
             idProduct: req.param("productId"),
             name: req.param("nombre"),
             comment: req.param("comment"),
-            
+
         }).exec(function (err, result) {
             var errorOccurred = false;
             var errorMsg = "";
@@ -125,45 +92,22 @@ module.exports = {
                 // return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error saving comment' });
             }
 
-            var idproduct = req.param("productId")
-            Product.find({ id: idproduct }).exec(function (err, product) {
-                if (err) {
-                    return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error finding product to add comment' });
-                };
 
-                Comments.find({ idProduct: idproduct }).exec(function (err, comments) {
-                    if (err) {
-                        return res.view('pages/ProductComments', { sucess: false, errorMsg: 'Error finding comments to this product' });
-                    };
-
-                    res.view('pages/ProductComments', { product: product, comments: comments});
-
-                });
-
-            });
+            res.redirect('/product/' + req.param("productId") + "/comments?errMsg=" + errorMsg);
 
         });
     },
-           
-        
-
-    
 
     showProductComment: function (req, res) {
 
 
         getProductsAndComments(function (err, comments, products) {
+            var errorMsg = req.param('errMsg');
+
             if (err) {
                 console.log("There was an error!", err)
-                return;
+                errorMsg = "" + errorMsg + "\nError searching for products and comments";
             }
-
-            //products.some(function(item){
-            //         if (item.id == itemSelected) {
-            //             myItem = item;
-            //             return true;
-            //         }
-            //      });
 
             var itemSelected = req.param('productId');
 
@@ -190,10 +134,9 @@ module.exports = {
                     imgUser: ""
                 });
             };
-            console.log(myItem.image, "lubeer");
-            res.view('pages/ProductComments', { product: myItem, comments: productComments });
-        });
 
+            res.view('pages/ProductComments', { product: myItem, comments: productComments, errMsg: req.param('errMsg') || false });
+        });
 
     },
 
@@ -207,7 +150,7 @@ module.exports = {
             for (var product of products) {
                 var counter = 0;
                 for (var comment of comments) {
-                    if (product.id === comment.idProduct) counter++;
+                    if (product.id == comment.idProduct) counter++;
                 }
 
                 product.numberOfComments = counter;
@@ -229,43 +172,67 @@ module.exports = {
                 console.log("somthig wrong deleting product", err)
 
             }
-            res.ok();
+            Comments.destroy({ id: IdProduct }).exec(function (err) {
+                if (err) {
+                    console.log("somthig wrong deleting all comments belong to this product ", err)
 
-            console.log("product was deleted,well done luber")
+                }
+                res.ok();
+
+            });
         });
 
-
-
-
-
-
-        // res.ok();
-        // Product.find().exec(function (err, products) {
-
-        //     if (err) {
-        //         console.log("Couldn't find products: ", err);
-        //         cb(err);
-        //         return;
-        //     }
-
-        //     res.view('pages/deleteProducts', { product: products });
-        // });
     },
 
+    ShowDeleteProductComments: function (req, res) {
 
-    deleteProductComments: function (req, res) {
-
-        var x = req.param("productId");
-        var productId = Number(x);
+        var productId = req.param("productId");
 
         Comments.find({ idProduct: productId }).exec(function (err, comments) {
             if (err) {
                 console.log("could not find comments", err)
             }
 
+            var counter = 0;
+            for (var comment of comments) {
+                counter++
+                comment.commentNumber = counter;
+
+            }
             res.view('pages/deleteComments', { comments: comments });
+        });
+    },
+
+    deleteComment: function (req, res) {
+
+        var IdComment = req.param("IdComment")
+
+        Comments.destroy({ id: IdComment }).exec(function (err) {
+
+
+            if (err) {
+                console.log("there is error deleting this comment", err)
+            }
+            res.ok()
 
         });
+
+    },
+
+    EditComment: function (req, res) {
+        var newcomment = req.param("newComment")
+        var Idcomment = req.param("IdComment")
+        
+        Comments.update({ id: Idcomment }).set({ comment: newcomment }).exec(function (err) {
+            if (err) {
+                console.log ("there is error editing this comment", err)
+            };
+            // product/5/comments/delete
+            res.redirect('pages/product/7/comments/delete');
+            // res.redirect('pages/deleteComments');
+          
+        });
+
     }
 
 };
