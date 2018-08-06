@@ -44,6 +44,7 @@ function getProductsAndComments(cb) {
 module.exports = {
 
 
+
     loadProducts: function (req, res) {
         Product.find().exec(function (err, products) {
             if (err) {
@@ -166,22 +167,30 @@ module.exports = {
         var IdProduct = req.param("IdProduct");
 
         console.log("this is a test", IdProduct);
+        var userId = req.cookies.userId;
+       
+        Users.findOne({ id: userId }).exec(function (err, user) {
+            if (user && user.isAdmin) {
+                Product.destroy({ id: IdProduct }).exec(function (err) {
+                    if (err) {
+                        console.log("somthig wrong deleting product", err)
 
-        Product.destroy({ id: IdProduct }).exec(function (err) {
-            if (err) {
-                console.log("somthig wrong deleting product", err)
+                    }
 
+                    Comments.destroy({ id: IdProduct }).exec(function (err) {
+                        if (err) {
+                            console.log("somthig wrong deleting all comments belong to this product ", err)
+                        }
+
+                        res.ok();
+
+                    });
+                });
+            } else {
+                res.send({isAdmin:false, msg:'You are not authorized to perform this action'});
+                console.log('You are not authorized to perform this action' + err)
             }
-            Comments.destroy({ id: IdProduct }).exec(function (err) {
-                if (err) {
-                    console.log("somthig wrong deleting all comments belong to this product ", err)
-
-                }
-                res.ok();
-
-            });
         });
-
     },
 
     ShowDeleteProductComments: function (req, res) {
@@ -205,35 +214,34 @@ module.exports = {
 
     deleteComment: function (req, res) {
 
-        var IdComment = req.param("IdComment")
+        var IdComment = req.param("IdComment");
 
         Comments.destroy({ id: IdComment }).exec(function (err) {
 
-
             if (err) {
-                console.log("there is error deleting this comment", err)
+                console.log("there is error deleting this comment", err);
             }
-            res.ok()
 
+            res.ok();
         });
 
     },
 
-    EditComment: function (req, res) {
-        var newcomment = req.param("newComment")
-        var Idcomment = req.param("IdComment")
-        
-        Comments.update({ id: Idcomment }).set({ comment: newcomment }).exec(function (err) {
+    editComment: function (req, res) {
+        var newComment = req.param("newComment");
+        var idComment = req.param("IdComment");;
+
+        Comments.update({ id: idComment }).set({ comment: newComment }).exec(function (err) {
             if (err) {
-                console.log ("there is error editing this comment", err)
+                console.log("there is error editing this comment", err)
             };
-            // product/5/comments/delete
-            res.redirect('pages/product/7/comments/delete');
-            // res.redirect('pages/deleteComments');
-          
+
+            //  res.redirect('pages/product/7/comments/delete');
+
+            res.ok();
         });
 
     }
 
-};
 
+};

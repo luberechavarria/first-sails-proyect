@@ -27,6 +27,23 @@ module.exports.routes = {
   '/': {
     view: 'pages/homepage'
   },
+  '/signUp': {
+    view: 'pages/signUp'
+  },
+
+ '/userAdmin': "UserController.showUsersAdmin",
+
+ '/userAdminEdit/:IdUser': "UserController.showUserAdminEdit",
+
+ 'POST /userAdminEdit/:IdUser': "UserController.userAdminEdit",
+
+  '/': "UserController.showHomepage",
+
+  '/loginUser': "UserController.showLoginUser",
+
+  'POST /signUp': "UserController.createUser",
+
+  'POST /loginUp': "UserController.validateAccountUser",
 
   '/products': "ProductController.loadProducts",
 
@@ -46,7 +63,7 @@ module.exports.routes = {
 
   'POST /product/comment/:IdComment/delete': "ProductController.deleteComment",
 
-  'POST /product/:IdComment/comments/edit/:newComment': "ProductController.EditComment",
+  'POST /product/:IdComment/comments/edit/:newComment': "ProductController.editComment",
 
   /***************************************************************************
   *                                                                          *
