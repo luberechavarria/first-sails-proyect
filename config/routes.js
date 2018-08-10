@@ -24,26 +24,38 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'pages/homepage'
-  },
+  '/': "UserController.showHome",
+
   '/signUp': {
     view: 'pages/signUp'
   },
 
+  '/loginUser':{
+    view: 'pages/loginUser'
+  },
+
+  
+  'POST /signUp': "UserController.createUser",
+  'POST /login': "UserController.loginUser",
+
+  // '/': {
+  //   view: 'pages/signUp'
+  // },
+
+
+  //=====================> Auth ===============>
  '/userAdmin': "UserController.showUsersAdmin",
+
+ 'POST /userAdminDelete/:IdUser': "UserController.deleteUserAdmin",
 
  '/userAdminEdit/:IdUser': "UserController.showUserAdminEdit",
 
  'POST /userAdminEdit/:IdUser': "UserController.userAdminEdit",
 
-  '/': "UserController.showHomepage",
+  
 
-  '/loginUser': "UserController.showLoginUser",
-
-  'POST /signUp': "UserController.createUser",
-
-  'POST /loginUp': "UserController.validateAccountUser",
+  '/logout': "UserController.logOut",
+ 
 
   '/products': "ProductController.loadProducts",
 
