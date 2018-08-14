@@ -1,13 +1,11 @@
 <div class="container padding_continer">
-    <% if(typeof success !== 'undefined') { %>
     <div class="msg">
-        <% if (success == true){ %>
+        <% if (typeof success !== 'undefined' && success === true){ %>
             <p>Congratulations, product stored!!!</p>
-        <% } else { %>
+        <% } else if (typeof errorMsg !== 'undefined'){ %>
             <p><%= errorMsg %></p>
         <% } %>
     </div>
-    <% } %>
     
     <div class="form-group ">
         <form action="/product/new" method="post">

@@ -1,19 +1,20 @@
 // api/models/Product.js
 module.exports = {
-    attributes: {
-        title: {
-            type: 'string',
-            required: true
-        },
+	attributes: {
+		title: {
+			type: 'string',
+			required: true
+		},
 
-        description: { 
-            type: 'string',
-        },
+		description: {
+			type: 'string',
+		},
 
-        image: {
-            type: 'string',
-            defaultsTo: "/images/lapto.jpeg"
-        }
-       
-    },
+		image: {
+			type: 'string',
+			defaultsTo: "/images/lapto.jpeg"
+		}
+
+
+	},
 };
