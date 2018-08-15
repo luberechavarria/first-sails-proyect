@@ -81,7 +81,7 @@ module.exports= {
 						var longText = cipher.toString();
 						Users.update({id: user.id}, {cookie: longText}).exec(function(updErr){
 								if(updErr){ 
-										console.log("there was a error saving the login cookie in the database ") 
+										console.log("there was a error saving the login cookie in the database ");
 										res.redirect("/loginUser",{errorMsg: "Error login you in"});
 										return;
 								};
@@ -102,9 +102,9 @@ module.exports= {
 	
 		AccountAuth.authenticateUser(req, function(err, user){
 			
-			if (!err & user.isAdmin === true &/// ) {
+			if (!err && user && user.isAdmin === true ) {
 				errMsg = "";
-				isAdmin = true
+				isAdmin = true;
 				Users.find().exec(function(err, users){
 					if(err){
 
@@ -115,9 +115,9 @@ module.exports= {
 				});
 
 			}else{
-					// users =[{id: "", firstName: "", lastName: "", email: "", isAdamin: ""}]
-					errMsg = "You do not have permission to delete "
-					console.log("user who is not admin to delete users in data-base", user)
+					users = "";
+					errMsg = "You do not have permission to delete ";
+					console.log("user who is not admin to delete users in data-base", user);
 					res.view("pages/userAdmin",{users: users, user:user, errMsg: errMsg, isAdmin: false}); 
 					
 				}
@@ -143,6 +143,7 @@ module.exports= {
 					res.view("pages/userAdminEdit",{user: user, isAdmin: isAdmin, userToEdit: userToEdit, errMsg: errMsg })
 				});
 			}else{
+				errMsg = "You are not allowed to see this view"
 				console.log("there was a error to show edit user view", err)
 				res.view("pages/userAdminEdit",{user: user, isAdmin: isAdmin, errMsg: errMsg });
 			};
@@ -163,7 +164,7 @@ module.exports= {
 				isAdmin = true
 		};
 		AccountAuth.authenticateUser(req, function(err, user){
-			if(!err & user.isAdmin === true){
+			if(!err && user && user.isAdmin === true){
 				Users.update({id: IdUser}).set({firstName: name, email: email, isAdmin: isAdmin, lastName: lastName}).exec(function(err){
 					if(err){
 							// res.redirect('/userAdmin');
@@ -182,15 +183,21 @@ module.exports= {
 
 	deleteUserAdmin: function(req, res){
 		var IdUser = req.param("IdUser");
+		AccountAuth.authenticateUser(req, function(err, user){
+			if(!err && user && user.isAdmin === true){
+				Users.destroy({id: IdUser }).exec(function(err){
+					if(err){
+						console.log("there was a error deleting this user",err);
+						res.send({errorMsg: "there was a error deleting this User" })
+					};
 
-		Users.destroy({id: IdUser }).exec(function(err){
-			if(err){
-				console.log("there was a error deleting this user",err);
-				res.send({errorMsg: "there was a error deleting this User" })
-			};
+						res.ok()
+				});
+			}else{
+				console.log("there was a error deleting this user")
+				res.send({errorMsg: "You are not allowed to access to this action" })
 
-					res.ok()
+			}	
 		});
-
 	}
 }

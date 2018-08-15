@@ -2,8 +2,9 @@
 	<div class="row">
 		<div class="col-md-12">
 			<% if (isAdmin == false && errMsg != ""){ %>
-			<h4 style="color: brown"> <%= errMsg %> </h4>
+			<h4 style="color: brown; font-size:25px; text-align: center;"> <%= errMsg %> </h4>
 			<%}else{%> 
+			<p   id="msg-notAllowed" style="color:red; font-size:25px; text-align: center;" > </p>
 			<h4>User Admin</h4>
 			<div class="table-responsive">
 				<table id="mytable" class="table table-bordred table-striped">
