@@ -1,5 +1,5 @@
 //Api/model/comments.js
-module.export= {
+module.exports = {
     attributes:{
         idProduct:{
           type:"number",
@@ -17,7 +17,7 @@ module.export= {
         },
 
         imgUser:{
-            type:"strindg",
+            type:"string",
             defaultsTo: "https://bootdey.com/img/Content/user_1.jpg"
         }
 
